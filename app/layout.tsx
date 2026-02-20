@@ -1,17 +1,17 @@
-// app/layout.tsx
 import '@/app/ui/global.css';
 import { inter } from '@/app/ui/fonts';
 
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  params, // Получаем params из маршрута
+  params,
 }: {
   children: React.ReactNode;
-  params?: { lang: string };
+  params: Promise<{ lang?: string }>;
 }) {
-  // По умолчанию 'ru', но можно взять из params
-  const lang = params?.lang || 'ru';
+  // Ждём разрешения промиса
+  const resolvedParams = await params;
+  // Берём lang из params или используем значение по умолчанию
+  const lang = resolvedParams.lang || 'ru';
 
   return (
     <html lang={lang}>
